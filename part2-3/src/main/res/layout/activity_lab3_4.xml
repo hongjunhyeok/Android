@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.part2_3.Lab3_4Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--오토링크 테스트-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="가나다라 http://www.google.com 마바사 a@a.com 아자차
+카타파하 02-1234-5678"
+            android:autoLink="web|email|phone"/>
+        <!--maxlines, ellipsize Test-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@string/long_text'
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"/>
+        <!--font-->
+        <TextView
+            android:id="@+id/fontView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom font"
+            android:layout_marginTop="16dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sample"
+            android:maxHeight="100dp"
+            android:maxWidth="100dp"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="16dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:hint="enter the number"
+            android:layout_marginTop='16dp'/>
+        <CheckBox
+            android:id='@+id/checkbox'
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='is unchecked'
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
