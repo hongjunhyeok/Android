@@ -60,7 +60,7 @@ public class Lab5_2Activity extends AppCompatActivity implements View.OnClickLis
         @Override
         public void onClick(DialogInterface dialog, int which) {
             if(dialog==customDialog && which==DialogInterface.BUTTON_POSITIVE){
-                showToast("끝!!");
+                showToast("끝!!- 2편을 기대해주세요!!");
             }
 
             // 목록 dialog 항목이 선택되었을 때 항목 문자열 획득
@@ -69,7 +69,10 @@ public class Lab5_2Activity extends AppCompatActivity implements View.OnClickLis
                 showToast(dates[which]+"선택했어!!");
             }
             else if(dialog==alertDialog && which ==DialogInterface.BUTTON_POSITIVE){
-                showToast("사실은 꺼지지 않아");
+                showToast("오늘 공부하면서 4시간동안 만들었어요...");
+            }
+            else if(dialog==alertDialog && which==DialogInterface.BUTTON_NEGATIVE){
+                showToast("사실은 꺼지지 않아 ");
             }
 
         }
@@ -81,16 +84,16 @@ public class Lab5_2Activity extends AppCompatActivity implements View.OnClickLis
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setIcon(android.R.drawable.ic_dialog_alert);
             builder.setTitle("알림");
-            builder.setMessage("정말 종료 하시겠습니까?");
-            builder.setPositiveButton("OK",dialogListener);
-            builder.setNegativeButton("NO",null);
+            builder.setMessage("ㅋㅋㅋㅋ사실 이걸만들면서 이런식으로 프로포즈 해도 되겠다 싶었어");
+            builder.setPositiveButton("계속 볼려면 OK",dialogListener);
+            builder.setNegativeButton("끄고 싶으면 NO",dialogListener);
 
             alertDialog=builder.create();
             alertDialog.show();
         }
         else if(v==listBtn){
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setTitle("알람 벨소리");
+            builder.setTitle("다음 학생중 젤 맘에드는 사람을 골라주세여");
             builder.setSingleChoiceItems(R.array.dialog_array,0,dialogListener);
             builder.setPositiveButton("확인",null);
             builder.setNegativeButton("취소",null);
@@ -100,8 +103,8 @@ public class Lab5_2Activity extends AppCompatActivity implements View.OnClickLis
         else if(v==progressBtn){
             ProgressDialog progressDialog=new ProgressDialog(this);
             progressDialog.setIcon(android.R.drawable.ic_dialog_alert);
-            progressDialog.setTitle("Wait..");
-            progressDialog.setMessage("동그라미 아 만들기 힘들다");
+            progressDialog.setTitle("알림");
+            progressDialog.setMessage("만들기 힘들다 ㅎㅎ");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
 
@@ -115,7 +118,7 @@ public class Lab5_2Activity extends AppCompatActivity implements View.OnClickLis
             DatePickerDialog datePickerDialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showToast(year+":"+(month+1)+":"+dayOfMonth);
+                    showToast("잊지 않았겠지만 기념일은 2018년 1월 26일이야");
                 }
             },year, month, day);
             datePickerDialog.show();
@@ -127,7 +130,7 @@ public class Lab5_2Activity extends AppCompatActivity implements View.OnClickLis
             TimePickerDialog timePickerDialog=new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    showToast(hourOfDay+":"+minute);
+                    showToast("정확히 말하자면 오후 3시 55분 이었어");
                 }
             }, hour, minute, false);
             timePickerDialog.show();

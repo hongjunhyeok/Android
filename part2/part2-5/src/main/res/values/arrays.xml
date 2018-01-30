@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="dialog_array">
-        <item>기본 알람소리</item>
+        <item>##멀캠##</item>
         <item>홍준혁</item>
         <item>김가영</item>
         <item>임현우</item>
