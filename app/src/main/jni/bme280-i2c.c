@@ -5,6 +5,9 @@
 
 #include "bme280-i2c.h"
 #include <android/log.h>
+#include <bits/ioctl.h>
+#include <unistd.h>
+
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define LOG_TAG "wpi_android"
 

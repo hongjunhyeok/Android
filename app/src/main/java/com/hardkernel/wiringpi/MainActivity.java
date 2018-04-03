@@ -35,7 +35,25 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class MainActivity extends Activity {
+import android.annotation.TargetApi;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.SurfaceView;
+import android.view.WindowManager;
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Mat;
+
+public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     TabHost mTabHost;
     private final static String TAG = "example-wiringPi";
@@ -138,87 +156,35 @@ public class MainActivity extends Activity {
     private String mPWMFreqNode; //added J.
     //PWM }}}
 
-    //I2C {{{
-    private boolean mStopWeather;
-    private ToggleButton mBtn_Weather;
-    //BME280 {{{
-    private TextView mTV_Temperature;
-    private TextView mTV_Humidity;
-    private TextView mTV_Pressure;
-    private TextView mTV_Altitude;
-    private String mTemperature;
-    private String mHumidity;
-    private String mPressure;
-    private String mAltitude;
-    Runnable mRunnableWeather = new Runnable() {
+    //{{{opencv
+    private CameraBridgeViewBase mOpenCvCameraView;
+    private Mat matInput; // Input으로 들어갈 영상이나 사진
+    private Mat matResult; // output으로 나올 영상이나 사진
 
+    public native void ConvertRGBtoGray(long matAddrInput, long matAddrResult);
+
+    static {
+        System.loadLibrary("wpi_android");
+        System.loadLibrary("opencv_android");
+        System.loadLibrary("opencv_java3");    }
+
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            updateWeather();
-        }
-    };
-    //BME280 }}}
-
-    //SI1132 {{{
-    private TextView mTV_UV_index;
-    private TextView mTV_Visible;
-    private TextView mTV_IR;
-    private String mUVindex;
-    private String mVisible;
-    private String mIR;
-    //SI1132 }}}
-    //I2C }}}
-
-    //UART {{{
-    private boolean mStopSerial;
-    private Button mBtn_WriteSerial;
-    private EditText mET_Write;
-    private ToggleButton mBtn_ReadSerial;
-    private EditText mET_Read;
-    private String mLine;
-    Runnable mRunnableSerial = new Runnable() {
-
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(TTYSx));
-                while (!mStopSerial) {
-                    while((mLine = br.readLine()) != null) {
-                        Log.e(TAG, mLine);
-                        mHandler.sendEmptyMessage(0);
-                    }
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    mOpenCvCameraView.enableView();
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
             }
         }
     };
-    private final static String TTYSx = "/dev/ttyS1";
-    private Handler mHandler = new Handler() {
+//opencv}}}
 
-        @Override
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            mET_Read.setText(mLine);
-        }
-    };
-    //UART }}}
-
-    //1-Wire {{{
-    private ToggleButton mBtn_1Wire;
-    private final static String W1_BUS = "/sys/bus/w1/devices/";
-    private List<String> mIDs;
-    private Button mBtn_DS1820_1;
-    private EditText mET_DS1820_Info_1;
-    private LinearLayout mLO_DS1820_2;
-    private Button mBtn_DS1820_2;
-    private EditText mET_DS1820_Info_2;
-    //1-Wire }}}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,28 +194,23 @@ public class MainActivity extends Activity {
         mTabHost = (TabHost) findViewById(R.id.tabhost);
         mTabHost.setup();
 
+
         TabSpec tab1 = mTabHost.newTabSpec("GPIO");
         TabSpec tab2 = mTabHost.newTabSpec("PWM");
-        TabSpec tab3 = mTabHost.newTabSpec("I2C");
-        TabSpec tab4 = mTabHost.newTabSpec("UART");
-        TabSpec tab5 = mTabHost.newTabSpec("1-Wire");
+        TabSpec tab3 = mTabHost.newTabSpec("OPENCV");
 
         tab1.setIndicator("GPIO");
         tab1.setContent(R.id.tab1);
         tab2.setIndicator("PWM");
         tab2.setContent(R.id.tab2);
-        tab3.setIndicator("I2C");
+        tab3.setIndicator("OPENCV");
         tab3.setContent(R.id.tab3);
-        tab4.setIndicator("UART");
-        tab4.setContent(R.id.tab4);
-        tab5.setIndicator("1-Wire");
-        tab5.setContent(R.id.tab5);
+
 
         mTabHost.addTab(tab1);
         mTabHost.addTab(tab2);
         mTabHost.addTab(tab3);
-        mTabHost.addTab(tab4);
-        mTabHost.addTab(tab5);
+
 
         mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
 
@@ -257,10 +218,8 @@ public class MainActivity extends Activity {
             public void onTabChanged(String tabId) {
                 // TODO Auto-generated method stub
                 mBtn_PWM.setChecked(false);
-                mBtn_Weather.setChecked(false);
+
                 mBtn_GPIO.setChecked(false);
-                mBtn_ReadSerial.setChecked(false);
-                mBtn_1Wire.setChecked(false);
             }
         });
 
@@ -271,22 +230,22 @@ public class MainActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // TODO Auto-generated method stub
-                if (isChecked) {
 
-                    wiringPiSetup();
+                //체크가 되었으면
+                if (isChecked) {
+                    wiringPiSetup(); //wiringPi를 준비하고 wiringPi는 native
 
                     for (int i = 0; i < ledPorts.length; i++)
-                        pinMode(ledPorts[i], OUTPUT);
+                        pinMode(ledPorts[i], OUTPUT);  //pinmode는 native pinMode(ports,value)
 
-                    mStopGPIO = false;
-                    handler.postDelayed(mRunnableGPIO, 100);
-                    for (CheckBox cb: mLeds)
+                    mStopGPIO = false; //mStopGPIO는 boolean값을 갖는다.
+                    handler.postDelayed(mRunnableGPIO, 100); // 지연값을 갖게해줌
+                    for (CheckBox cb: mLeds)  //체크박스 활성화
                         cb.setEnabled(true);
                 } else {
                     mStopGPIO = true;
-                    for (CheckBox cb: mLeds) {
+                    for (CheckBox cb: mLeds)  //체크박스 비활성화
                         cb.setEnabled(false);
-                    }
                     mPB_ADC.setEnabled(false);
                 }
             }
@@ -356,6 +315,7 @@ public class MainActivity extends Activity {
         mSB_DutyPWM1 = (SeekBar) findViewById(R.id.sb_duty1);
         mSB_DutyPWM1.setEnabled(false);
         mSB_DutyPWM1.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -460,153 +420,39 @@ public class MainActivity extends Activity {
         mBtn_PWM.setChecked(false);
         //PWM }}}
 
-        //I2C {{{
-        //BME280 {{{
-        mBtn_Weather = (ToggleButton) findViewById(R.id.tb_weather);
-        mBtn_Weather.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-                    if (openWeatherBoard() == -1) {
-                        Log.e(TAG, "filed");
-                        return;
-                    }
-                    mStopWeather = false;
-                    handler.postDelayed(mRunnableWeather, 300);
-                } else {
-                    mStopWeather = true;
-                    closeWeatherBoard();
-                }
+        //{{{opencv
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //퍼미션 상태 확인
+            if (!hasPermissions(PERMISSIONS)) {
+
+                //퍼미션 허가 안되어있다면 사용자에게 요청
+                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
             }
-        });
+        }
 
-        mTV_Temperature = (TextView) findViewById(R.id.tv_temperature);
-        mTV_Humidity = (TextView) findViewById(R.id.tv_humidity);
-        mTV_Pressure = (TextView) findViewById(R.id.tv_pressure);
-        mTV_Altitude = (TextView) findViewById(R.id.tv_altitude);
-        //BME280 }}}
-
-        //SI1173 {{{
-        mTV_UV_index = (TextView) findViewById(R.id.tv_uv_index);
-        mTV_Visible = (TextView) findViewById(R.id.tv_visible);
-        mTV_IR = (TextView) findViewById(R.id.tv_ir);
-        //SI1132 }}}
-        //I2C }}}
-
-        //UART {{{
-        mET_Write = (EditText) findViewById(R.id.et_write);
-        mET_Write.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-                if (s.length() > 0)
-                    mBtn_WriteSerial.setEnabled(true);
-                else
-                    mBtn_WriteSerial.setEnabled(false);
-            }
-        });
-
-        mBtn_WriteSerial = (Button) findViewById(R.id.btn_write_serial);
-        mBtn_WriteSerial.setEnabled(false);
-        mBtn_WriteSerial.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                writeSerial(mET_Write.getText().toString());
-                mET_Write.setText("");
-            }
-        });
-
-        mET_Read = (EditText) findViewById(R.id.et_read);
-        mBtn_ReadSerial = (ToggleButton) findViewById(R.id.btn_read_serial);
-        mBtn_ReadSerial.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-                    setBaudRate();
-                    mStopSerial = false;
-                    new Thread(mRunnableSerial).start();
-                } else
-                    mStopSerial = true;
-            }
-        });
-        //UART }}}
-
-        //1-Wire {{{
-        mBtn_1Wire = (ToggleButton) findViewById(R.id.btn_1w);
-        mBtn_1Wire.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-                    insmod1Wire();
-                    mIDs = new ArrayList<String>();
-                    getDS1820ID(mIDs);
-                    if (mIDs.size() == 0)
-                        return;
-
-                    mBtn_DS1820_1.setText(mBtn_DS1820_1.getText() + "(" +
-                            mIDs.get(0) + ")");
-                    if (mIDs.size() > 1) {
-                        mBtn_DS1820_2.setText(mBtn_DS1820_2.getText() + "(" +
-                            mIDs.get(1) + ")");
-                        mLO_DS1820_2.setVisibility(View.VISIBLE);
-                    }
-                } else
-                    rmmod1Wire();
-            }
-        });
-
-        mET_DS1820_Info_1 = (EditText) findViewById(R.id.et_ds1820_info_1);
-        mBtn_DS1820_1 = (Button) findViewById(R.id.btn_ds1829_1);
-        mBtn_DS1820_1.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                if (mIDs.size() == 0)
-                    return;
-
-                mET_DS1820_Info_1.setText(getDS1820Info(mIDs.get(0)));
-            }
-        });
-        mLO_DS1820_2 = (LinearLayout) findViewById(R.id.lo_ds1820_2);
-        mLO_DS1820_2.setVisibility(View.GONE);
-        mET_DS1820_Info_2 = (EditText) findViewById(R.id.et_ds1820_info_2);
-        mBtn_DS1820_2 = (Button) findViewById(R.id.btn_ds1820_2);
-        mBtn_DS1820_2.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                mET_DS1820_Info_2.setText(getDS1820Info(mIDs.get(1)));
-            }
-        });
-        //1-Wire }}}
+        mOpenCvCameraView = (CameraBridgeViewBase)findViewById(R.id.activity_surface_view);
+        mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
+        mOpenCvCameraView.setCvCameraViewListener(this);
+        mOpenCvCameraView.setCameraIndex(0); // front-camera(1),  back-camera(0)
+        mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
     }
+        //opencv}}}
+
 
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        //{{{opencv
+        if (!OpenCVLoader.initDebug()) {
+            Log.d(TAG, "onResume :: Internal OpenCV library not found.");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_2_0, this, mLoaderCallback);
+        } else {
+            Log.d(TAG, "onResum :: OpenCV library found inside package. Using it!");
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+        //opencv}}}
     }
 
     @Override
@@ -620,17 +466,112 @@ public class MainActivity extends Activity {
         //PWM {{{
         mBtn_PWM.setChecked(false);
         //PWM }}}
-        //I2C {{{
-        mBtn_Weather.setChecked(false);
-        //I2C }}}
-        //UARD {{{
-        mBtn_ReadSerial.setChecked(false);
-        //UART }}}
-        //1-Wire {{{
-        mBtn_1Wire.setChecked(false);
-        //1-Wire }}}
-        //I2C }}}
+//{{opencv
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.disableView();
+        //opencv}}}
     }
+    //{{opencv
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mOpenCvCameraView != null)
+            mOpenCvCameraView.disableView();
+    }
+
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+
+    }
+
+    @Override
+    public void onCameraViewStopped() {
+
+    }
+
+    @Override
+    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+
+        matInput = inputFrame.rgba();
+
+        if ( matResult != null ) matResult.release();
+        matResult = new Mat(matInput.rows(), matInput.cols(), matInput.type());
+
+        ConvertRGBtoGray(matInput.getNativeObjAddr(), matResult.getNativeObjAddr());
+
+        return matResult;
+    }
+
+    //여기서부턴 퍼미션 관련 메소드
+    static final int PERMISSIONS_REQUEST_CODE = 1000;
+    String[] PERMISSIONS  = {"android.permission.CAMERA"};
+
+
+    private boolean hasPermissions(String[] permissions) {
+        int result;
+
+        //스트링 배열에 있는 퍼미션들의 허가 상태 여부 확인
+        for (String perms : permissions){
+
+            result = ContextCompat.checkSelfPermission(this, perms);
+
+            if (result == PackageManager.PERMISSION_DENIED){
+                //허가 안된 퍼미션 발견
+                return false;
+            }
+        }
+
+        //모든 퍼미션이 허가되었음
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode){
+
+            case PERMISSIONS_REQUEST_CODE:
+                if (grantResults.length > 0) {
+                    boolean cameraPermissionAccepted = grantResults[0]
+                            == PackageManager.PERMISSION_GRANTED;
+
+                    if (!cameraPermissionAccepted)
+                        showDialogForPermission("앱을 실행하려면 퍼미션을 허가하셔야합니다.");
+                }
+                break;
+        }
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void showDialogForPermission(String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this);
+        builder.setTitle("알림");
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id){
+                requestPermissions(PERMISSIONS, PERMISSIONS_REQUEST_CODE);
+            }
+        });
+        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                finish();
+            }
+        });
+        builder.create().show();
+    }
+    //opencv}}}
+
+
+
+
+
+
 
     //GPIO {{{
     public void updateGPIO() {
@@ -731,141 +672,15 @@ public class MainActivity extends Activity {
     }
     //PWM }}}
 
-    //I2C {{{
-    private void updateWeather() {
-        if (mStopWeather == true)
-            return;
-        mTV_UV_index.setText("UV index : "
-                + String.format("%.2f", (double)getUVindex() / 100.0));
-        mTV_Visible.setText("Visible : "
-                + String.format("%.0f", (double)getVisible()) + " Lux");
-        mTV_IR.setText("IR : "
-                + String.format("%.0f", (double)getIR()) + " Lux");
-        readyData();
-        mTV_Temperature.setText("Temperature : "
-                + String.format("%.2f", getTemperature() / 100.0) + " °C");
-        mTV_Humidity.setText("Humidity : "
-                + String.format("%.2f", getHumidity() / 1024.0) + " %");
-        mTV_Pressure.setText("Pressure : "
-                + String.format("%.2f", getPressure() / 100.0) + " hPa");
-        mTV_Altitude.setText("Altitude : " + getAltitude() + " m");
 
-        if (!mStopWeather)
-            handler.postDelayed(mRunnableWeather, 1000);
-    }
-    //I2C }}}
 
-    //UART {{{
-    private void setBaudRate() {
-        try {
-            DataOutputStream os = new DataOutputStream(mProcess.getOutputStream());
-            os.writeBytes("stty -F /dev/ttyS1 115200\n");
-            os.flush();
-            Thread.sleep(100);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private void writeSerial(String data) {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(TTYSx));
-            bw.write(data);
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    //UART }}}
-
-    //1-Wire
-    private void insmod1Wire() {
-        try {
-            DataOutputStream os = new DataOutputStream(mProcess.getOutputStream());
-            os.writeBytes("insmod /system/lib/modules/wire.ko\n");
-            os.writeBytes("insmod /system/lib/modules/w1-gpio.ko\n");
-            os.writeBytes("insmod /system/lib/modules/w1_therm.ko\n");
-            os.flush();
-            Thread.sleep(100);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private void rmmod1Wire() {
-        try {
-            DataOutputStream os = new DataOutputStream(mProcess.getOutputStream());
-            os.writeBytes("rmmod w1_therm\n");
-            os.writeBytes("rmmod w1_gpio\n");
-            os.flush();
-            Thread.sleep(100);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private void getDS1820ID(List<String> ids) {
-        File[] files = new File(W1_BUS).listFiles();
-        for ( File aFile : files ) {
-             if (aFile.isDirectory()) {
-                 Log.e(TAG, aFile.getName());
-                 if (!aFile.getName().toString().equals("w1_bus_master1"))
-                     ids.add(aFile.getName());
-             }
-        }
-    }
-
-    private String getDS1820Info(String id) {
-        String info = "";
-        try {
-            BufferedReader w1_slave_reader =
-                new BufferedReader(new FileReader(W1_BUS + "/" + id + "/w1_slave"));
-
-            String txt = "";
-
-            while((txt = w1_slave_reader.readLine()) != null) {
-                info += txt + "\n";
-            }
-
-            info = info.trim();
-
-            w1_slave_reader.close();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return info;
-    }
-    //1-Wire
 
     public native int wiringPiSetup();
-    public native int wiringPiSetupSys();
+//    public native int wiringPiSetupSys();
     public native int analogRead(int port);
     public native void digitalWrite(int port, int onoff);
     public native void pinMode(int port, int value);
-    public native int openWeatherBoard();
-    public native int closeWeatherBoard();
-    public native void readyData();
-    public native int getUVindex();
-    public native float getVisible();
-    public native float getIR();
-    public native int getTemperature();
-    public native int getPressure();
-    public native int getHumidity();
-    public native int getAltitude();
 
-    static {
-        System.loadLibrary("wpi_android");
-    }
+
 }
+

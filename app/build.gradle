@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
-
 android {
-    compileSdkVersion 19
+    compileSdkVersion 26
     buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.hardkernel.wiringpi"
-        minSdkVersion 16
-        targetSdkVersion 19
+        minSdkVersion 23
+        targetSdkVersion 26
     }
 
     buildTypes {
@@ -23,9 +22,14 @@ android {
         }
     }
 
-    defaultConfig{
-        ndk{
+    defaultConfig {
+        ndk {
             abiFilters "armeabi-v7a"
         }
     }
+}
+
+dependencies {
+    compile project(':openCVLibrary340')
+    compile 'com.android.support:appcompat-v7:26.0.1'
 }

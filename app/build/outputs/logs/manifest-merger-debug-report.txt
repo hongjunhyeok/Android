@@ -1,57 +1,136 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:2:1-29:12
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:2:1-43:12
 	package
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:3:5-38
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:3:5-38
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:5:5-30
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:5:5-30
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
 	android:versionCode
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:4:5-28
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:2:11-69
 uses-sdk
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:7:5-9:41
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:7:5-9:41
+MERGED from [project:openCVLibrary340:unspecified] C:\Users\ygyg331\project\openCVLibrary340\build\intermediates\bundles\default\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:26.0.1] C:\Users\ygyg331\.android\build-cache\55bfd17781bdfb442f6cbb6e290d0f97c8eaa62a\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:26.0.1] C:\Users\ygyg331\.android\build-cache\a5a9da62842953ef04ca7bb5f0ebaaf369b3424a\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-media-compat:26.0.1] C:\Users\ygyg331\.android\build-cache\ba532b5f2a6513320f46ad063dd5aa64b864d297\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-fragment:26.0.1] C:\Users\ygyg331\.android\build-cache\8e4e74920b17801195fd0b3a2a27b55e3a2c7453\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-core-utils:26.0.1] C:\Users\ygyg331\.android\build-cache\4c4c22cf1495241b58191e575feacabd80a262c8\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:animated-vector-drawable:26.0.1] C:\Users\ygyg331\.android\build-cache\c5d9522ffb273cbcf4c677b07f40a2cdfa13ad4e\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:26.0.1] C:\Users\ygyg331\.android\build-cache\a40bd95b67c9c044d57becbf969e37c0f437e96a\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:26.0.1] C:\Users\ygyg331\.android\build-cache\1805cfa90095da5f45dc0046da0e88346d99f5bc\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:26.0.1] C:\Users\ygyg331\.android\build-cache\4566d75ecf5e68c8ddf8892a86c6b29edf84cab6\output\AndroidManifest.xml:21:5-23:58
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:26.0.1] C:\Users\ygyg331\.android\build-cache\55bfd17781bdfb442f6cbb6e290d0f97c8eaa62a\output\AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:9:9-38
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:9:9-38
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:8:9-35
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
-		INJECTED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:8:9-35
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.ACCESS_SUPERUSER
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:11:5-75
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:11:5-75
 	android:name
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:11:22-72
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:11:22-72
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:12:5-64
+	android:name
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:12:22-62
+uses-feature#android.hardware.camera
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:13:5-84
+	android:required
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:13:58-82
+	android:name
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:13:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:14:5-94
+	android:required
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:14:68-92
+	android:name
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:14:19-67
+uses-feature#android.hardware.camera.front
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:15:5-90
+	android:required
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:15:64-88
+	android:name
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:15:19-63
+uses-feature#android.hardware.camera.front.autofocus
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:16:5-101
+	android:required
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:16:75-99
+	android:name
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:16:19-73
+supports-screens
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:18:5-22:37
+	android:largeScreens
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:21:9-36
+	android:smallScreens
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:19:9-36
+	android:normalScreens
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:20:9-37
+	android:resizeable
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:18:23-48
+	android:anyDensity
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:22:9-34
 application
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:13:5-27:19
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:25:5-41:19
+MERGED from [com.android.support:appcompat-v7:26.0.1] C:\Users\ygyg331\.android\build-cache\55bfd17781bdfb442f6cbb6e290d0f97c8eaa62a\output\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-v4:26.0.1] C:\Users\ygyg331\.android\build-cache\a5a9da62842953ef04ca7bb5f0ebaaf369b3424a\output\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-media-compat:26.0.1] C:\Users\ygyg331\.android\build-cache\ba532b5f2a6513320f46ad063dd5aa64b864d297\output\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-fragment:26.0.1] C:\Users\ygyg331\.android\build-cache\8e4e74920b17801195fd0b3a2a27b55e3a2c7453\output\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-core-utils:26.0.1] C:\Users\ygyg331\.android\build-cache\4c4c22cf1495241b58191e575feacabd80a262c8\output\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:animated-vector-drawable:26.0.1] C:\Users\ygyg331\.android\build-cache\c5d9522ffb273cbcf4c677b07f40a2cdfa13ad4e\output\AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:support-vector-drawable:26.0.1] C:\Users\ygyg331\.android\build-cache\a40bd95b67c9c044d57becbf969e37c0f437e96a\output\AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:support-core-ui:26.0.1] C:\Users\ygyg331\.android\build-cache\1805cfa90095da5f45dc0046da0e88346d99f5bc\output\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-compat:26.0.1] C:\Users\ygyg331\.android\build-cache\4566d75ecf5e68c8ddf8892a86c6b29edf84cab6\output\AndroidManifest.xml:25:5-29:19
 	android:label
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:16:9-41
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:28:9-41
 	android:allowBackup
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:14:9-35
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:26:9-35
 	android:icon
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:15:9-45
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:27:9-45
 	android:theme
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:17:9-40
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:29:9-40
 activity#com.hardkernel.wiringpi.MainActivity
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:18:9-26:20
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:30:9-40:20
+	android:screenOrientation
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:33:13-50
 	android:label
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:20:13-45
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:32:13-45
+	android:configChanges
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:34:13-63
 	android:name
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:19:13-41
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:31:13-41
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:21:13-25:29
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:35:13-39:29
 action#android.intent.action.MAIN
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:22:17-69
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:36:17-69
 	android:name
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:22:25-66
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:36:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:24:17-77
+ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:38:17-77
 	android:name
-		ADDED from /media/codewalker/projects/example-wiringPi_c2/app/src/main/AndroidManifest.xml:24:27-74
+		ADDED from C:\Users\ygyg331\project\app\src\main\AndroidManifest.xml:38:27-74
+meta-data#android.support.VERSION
+ADDED from [com.android.support:appcompat-v7:26.0.1] C:\Users\ygyg331\.android\build-cache\55bfd17781bdfb442f6cbb6e290d0f97c8eaa62a\output\AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-v4:26.0.1] C:\Users\ygyg331\.android\build-cache\a5a9da62842953ef04ca7bb5f0ebaaf369b3424a\output\AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-media-compat:26.0.1] C:\Users\ygyg331\.android\build-cache\ba532b5f2a6513320f46ad063dd5aa64b864d297\output\AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-fragment:26.0.1] C:\Users\ygyg331\.android\build-cache\8e4e74920b17801195fd0b3a2a27b55e3a2c7453\output\AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-core-utils:26.0.1] C:\Users\ygyg331\.android\build-cache\4c4c22cf1495241b58191e575feacabd80a262c8\output\AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:animated-vector-drawable:26.0.1] C:\Users\ygyg331\.android\build-cache\c5d9522ffb273cbcf4c677b07f40a2cdfa13ad4e\output\AndroidManifest.xml:23:9-25:38
+MERGED from [com.android.support:support-vector-drawable:26.0.1] C:\Users\ygyg331\.android\build-cache\a40bd95b67c9c044d57becbf969e37c0f437e96a\output\AndroidManifest.xml:23:9-25:38
+MERGED from [com.android.support:support-core-ui:26.0.1] C:\Users\ygyg331\.android\build-cache\1805cfa90095da5f45dc0046da0e88346d99f5bc\output\AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-compat:26.0.1] C:\Users\ygyg331\.android\build-cache\4566d75ecf5e68c8ddf8892a86c6b29edf84cab6\output\AndroidManifest.xml:26:9-28:38
+	android:value
+		ADDED from [com.android.support:appcompat-v7:26.0.1] C:\Users\ygyg331\.android\build-cache\55bfd17781bdfb442f6cbb6e290d0f97c8eaa62a\output\AndroidManifest.xml:28:13-35
+	android:name
+		ADDED from [com.android.support:appcompat-v7:26.0.1] C:\Users\ygyg331\.android\build-cache\55bfd17781bdfb442f6cbb6e290d0f97c8eaa62a\output\AndroidManifest.xml:27:13-51

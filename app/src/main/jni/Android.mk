@@ -76,3 +76,19 @@ LOCAL_SRC_FILES := \
 LOCAL_LDLIBS    := -ldl -llog
 LOCAL_SHARED_LIBRARIES := libwiringPi libwiringPiDev
 include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
+#opencv library
+OPENCVROOT:= C:\OpenCV-android-sdk
+OPENCV_CAMERA_MODULES:=on
+OPENCV_INSTALL_MODULES:=on
+OPENCV_LIB_TYPE:=SHARED
+include ${OPENCVROOT}\sdk\native\jni\OpenCV.mk
+
+
+LOCAL_MODULE    := opencv_android
+LOCAL_SRC_FILES := opencv.cpp
+LOCAL_LDLIBS += -llog
+
+include $(BUILD_SHARED_LIBRARY)
